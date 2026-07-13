@@ -90,7 +90,8 @@ cv2.waitKey(0)
 cv2.destroyAllWindows()
 
 # 轮廓检测
-cnts = cv2.findContours(edged.copy(), cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)[1]
+contours, hierarchy = cv2.findContours(edged.copy(), cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+cnts = contours
 cnts = sorted(cnts, key = cv2.contourArea, reverse = True)[:5]
 
 # 遍历轮廓
