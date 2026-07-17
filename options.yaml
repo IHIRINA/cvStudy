@@ -1,0 +1,55 @@
+train:
+  epochs: 200
+  batch_size: 4
+  lr: 1.e-4
+  lr_scheduler_stages: 6
+  save_freq: 1
+  start: 79
+  cuda_num: 
+    - 0
+
+data:
+  use_slice: 5
+  hdf5_root: '/root/autodl-tmp/data/hdf5/'
+  dcm_root: '/root/autodl-tmp/data/Tof/preprocessed_tof/'
+  use_modality: 
+    - '3D-T1W'
+    - '3D-T2W'
+    - '3D-FLAIR'
+
+mip_loss:
+  temp: 0.75
+
+BB:
+  mt_type: 'linear' # options {'linear', 'sin'}
+  objective: 'ysubx' # options {'grad', 'noise', 'ysubx'}
+  timesteps: 1000
+
+  skip_sample: True
+  sample_type: 'linear' # options {"linear", "sin"}
+  sample_step: 50
+
+FusionUnet:
+  in_channels: 5
+  out_channels: 5
+  num_res_blocks: 2
+  model_channels: 32 
+  channel_mult: [1, 4, 8]
+  conv_resample: False
+  condition_key: "nocond"  # options {"SpatialRescaler", "first_stage", "nocond"}
+
+Restormer:
+  in_c: 10
+  out_c: 5
+  model_c: 8
+  mult: [1, 2, 4, 8]
+  emb_c: 128
+
+SmallUnet:
+  in_channels: 10
+  out_channels: 5
+  num_res_blocks: 1
+  model_channels: 16 
+  channel_mult: [1, 4, 8]
+  conv_resample: True
+  condition_key: "SpatialRescaler"  # options {"SpatialRescaler", "first_stage", "nocond"}
